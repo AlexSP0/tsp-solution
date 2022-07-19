@@ -17,16 +17,22 @@ set(SOURCES
     main.cpp
     mainwindow.cpp
     genome.cpp
+    tspwindow.cpp
+    citycoordinates.cpp
 )
 
 set(HEADERS
         mainwindow.h
         mainwindow.ui
         genome.h
+        tspwindow.h
+        citycoordinates.h
+        mapconstants.h
 )
 
 set(UI
         mainwindow.ui
+        tspwindow.ui
 )
 
 add_executable(tsp-solution ${SOURCES} ${HEADERS} ${UI})

@@ -1,0 +1,10 @@
+#ifndef MAPCONSTANTS_H
+#define MAPCONSTANTS_H
+
+const int MAP_HEIGHT_IN_PIXELS = 400;
+const int MAP_WIDTH_IN_PIXELS  = 400;
+
+const int MAX_X_CITY_COORDINATE = 4000;
+const int MAX_Y_CITY_COORDINATE = 4000;
+
+#endif //MAPCONSTANTS_H
