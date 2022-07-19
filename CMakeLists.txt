@@ -16,11 +16,13 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets Core)
 set(SOURCES
     main.cpp
     mainwindow.cpp
+    genome.cpp
 )
 
 set(HEADERS
         mainwindow.h
         mainwindow.ui
+        genome.h
 )
 
 set(UI
