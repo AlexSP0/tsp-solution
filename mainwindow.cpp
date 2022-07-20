@@ -42,8 +42,13 @@ void MainWindow::generateMap(const int numCities)
 
 void MainWindow::startButton()
 {
-    TSPWindow *win = new TSPWindow(&map);
-    win->show();
+    QString numCitiesString     = ui->NumberOfCitiesLineEdit->text();
+    QString numPopulationString = ui->PopulationSizeLineEdit->text();
+
+    population = new TSPHolder(numPopulationString.toInt(), numCitiesString.toInt());
+
+    //TSPWindow *win = new TSPWindow(&map);
+    //win->show();
 }
 
 void MainWindow::exitButton()

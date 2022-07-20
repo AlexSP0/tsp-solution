@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "citycoordinates.h"
+#include "tspholder.h"
 
 #include <memory>
 #include <QMainWindow>
@@ -20,6 +21,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    TSPHolder *population;
 
 private:
     Ui::MainWindow *ui;
