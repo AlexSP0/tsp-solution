@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete population;
 }
 
 void MainWindow::generateMap(const int numCities)
@@ -45,10 +46,10 @@ void MainWindow::startButton()
     QString numCitiesString     = ui->NumberOfCitiesLineEdit->text();
     QString numPopulationString = ui->PopulationSizeLineEdit->text();
 
-    population = new TSPHolder(numPopulationString.toInt(), numCitiesString.toInt());
+    population = new TSPHolder(numPopulationString.toInt(), numCitiesString.toInt(), &map);
 
-    //TSPWindow *win = new TSPWindow(&map);
-    //win->show();
+    TSPWindow *win = new TSPWindow(&map);
+    win->show();
 }
 
 void MainWindow::exitButton()

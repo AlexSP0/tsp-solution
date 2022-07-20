@@ -23,6 +23,17 @@ bool Genome::isValidRoute()
     return vectorSet.size() == bits.size();
 }
 
+Genome &Genome::operator=(const Genome &in)
+{
+    if (this == &in)
+    {
+        return *this;
+    }
+    fitness = in.fitness;
+    std::copy(in.bits.begin(), in.bits.end(), bits.begin());
+    return *this;
+}
+
 void Genome::generateRoute(const int numCities)
 {
     while (!isValidRoute())

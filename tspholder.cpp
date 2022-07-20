@@ -1,14 +1,16 @@
 #include "tspholder.h"
 
-TSPHolder::TSPHolder(int populationSize, int numberCities)
+TSPHolder::TSPHolder(int populationSize, int numberCities, std::vector<CityCoordinates> *m)
     : genomeSize(numberCities)
+    , map(m)
 {
     createPopulation(populationSize);
+    calc = new TSPCalculator(population, 0, 50, map);
 }
 
 TSPHolder::~TSPHolder()
 {
-
+    delete calc;
 }
 
 void TSPHolder::createPopulation(int populationSize)

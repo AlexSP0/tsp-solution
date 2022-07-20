@@ -14,6 +14,8 @@ public:
 
     bool isValidRoute();
 
+    Genome &operator=(const Genome &);
+
 private:
     void generateRoute(const int);
 };
