@@ -7,10 +7,25 @@ TSPCalculator::TSPCalculator(std::vector<Genome> &population,
                              int end,
                              std::vector<CityCoordinates> *m)
     : map(m)
+    , TotalFitness(0.0)
+    , currentGenome(0)
+    , currentGen(0)
 {
     std::copy(population.begin() + begin,
               population.begin() + begin + end,
               std::back_inserter(populationPart));
+}
+
+void TSPCalculator::showRoutes(int &fromCity, int &toCity)
+{
+    if (currentGenome < populationPart.size())
+    {
+        calculateGenomeFitness(currentGenome, fromCity, toCity);
+    }
+    else
+    {
+        //Закончили расчеты и показ
+    }
 }
 
 double TSPCalculator::calcDistanceBetweenCities(int firstCity, int secondCity)
@@ -27,17 +42,29 @@ double TSPCalculator::calcDistanceBetweenCities(int firstCity, int secondCity)
     return sqrt(pow(xCathetus, 2) + pow(yCathetus, 2));
 }
 
-void TSPCalculator::calculateGenomeFitness(int currentGenome)
+void TSPCalculator::calculateGenomeFitness(int currentGenome, int &fromCity, int &toCity)
 {
-    for (size_t i = 0; i < populationPart[currentGenome].bits.size(); i++)
+    if (currentGen < populationPart[currentGenome].bits.size())
     {
-        if (i == 0)
+        if (currentGen != 0)
         {
-            continue;
+            double currentDistance
+                = calcDistanceBetweenCities(populationPart[currentGenome].bits[currentGen - 1],
+                                            populationPart[currentGenome].bits[currentGen]);
+
+            populationPart[currentGenome].fitness = populationPart[currentGenome].fitness
+                                                    + currentDistance;
+
+            TotalFitness = TotalFitness + currentDistance;
+
+            fromCity = populationPart[currentGenome].bits[currentGen - 1];
+            toCity   = populationPart[currentGenome].bits[currentGen];
         }
-        populationPart[currentGenome].fitness
-            = populationPart[currentGenome].fitness
-              + calcDistanceBetweenCities(populationPart[currentGenome].bits[i - 1],
-                                          populationPart[currentGenome].bits[i]);
+        currentGen++;
+    }
+    else
+    {
+        currentGen = 0;
+        this->currentGenome++;
     }
 }

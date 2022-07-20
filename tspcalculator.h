@@ -3,6 +3,7 @@
 
 #include "citycoordinates.h"
 #include "genome.h"
+#include "tspwindow.h"
 
 #include <vector>
 
@@ -13,10 +14,18 @@ public:
 
 private:
     std::vector<Genome> populationPart;
+
     std::vector<CityCoordinates> *map;
 
+    double TotalFitness;
+
+    int currentGenome;
+    int currentGen;
+
+    void showRoutes(int &, int &);
+
     double calcDistanceBetweenCities(int, int);
-    void calculateGenomeFitness(int);
+    void calculateGenomeFitness(int, int &, int &);
 };
 
 #endif // TSPCALCULATOR_H
