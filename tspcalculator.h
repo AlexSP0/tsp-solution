@@ -14,6 +14,9 @@ public:
 private:
     std::vector<Genome> populationPart;
     std::vector<CityCoordinates> *map;
+
+    double calcDistanceBetweenCities(int, int);
+    void calculateGenomeFitness(int);
 };
 
 #endif // TSPCALCULATOR_H
