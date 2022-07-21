@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    holder = new TSPHolder();
+
     timer = new QTimer();
     timer->setInterval(1000);
 
@@ -26,6 +28,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete window;
     delete timer;
+    delete holder;
 }
 
 void MainWindow::generateMap(const int numCities)
@@ -51,9 +54,9 @@ void MainWindow::startButton()
     QString numPopulationString = ui->PopulationSizeLineEdit->text();
 
     generateMap(numCitiesString.toInt());
-    createPopulation(numPopulationString.toInt(), numCitiesString.toInt());
+    holder->createPopulation(numPopulationString.toInt(), numCitiesString.toInt());
 
-    window = new TSPWindow(&map, population, 0, numPopulationString.toInt());
+    window = new TSPWindow(&map, holder->population, 0, numPopulationString.toInt());
     window->show();
     timer->start();
 }
@@ -71,13 +74,5 @@ void MainWindow::tick()
         QMessageBox msgBox;
         msgBox.setText("WINDOW STOPS!");
         msgBox.exec();
-    }
-}
-
-void MainWindow::createPopulation(int populationSize, int genomeSize)
-{
-    for (size_t i = 0; i < populationSize; i++)
-    {
-        population.emplace_back(Genome(genomeSize));
     }
 }

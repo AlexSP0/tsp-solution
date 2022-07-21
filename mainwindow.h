@@ -29,7 +29,7 @@ private:
 
     std::vector<CityCoordinates> map;
 
-    std::vector<Genome> population;
+    TSPHolder *holder;
 
     TSPWindow *window;
 
@@ -37,8 +37,6 @@ private:
 
 private:
     void generateMap(const int numCities);
-
-    void createPopulation(int, int);
 
 private slots:
 

@@ -2,7 +2,10 @@
 #include "mapconstants.h"
 #include <QRandomGenerator>
 
-TSPHolder::TSPHolder() {}
+TSPHolder::TSPHolder()
+    : bestFitness(0.0)
+    , totalFitness(0.0)
+{}
 
 TSPHolder::~TSPHolder() {}
 
@@ -14,6 +17,11 @@ void TSPHolder::mutate(Genome &genome, int numCities)
 void TSPHolder::crossover(Genome &dad, Genome &mom, Genome &baby1, Genome &baby2)
 {
     void crossoverSimple(Genome & dad, Genome & mom, Genome & baby1, Genome & baby2);
+}
+
+Genome &TSPHolder::selection()
+{
+    return tournamentSelection(TOURNAMENT_SLECTION_NUMBER);
 }
 
 void TSPHolder::scrambleMutation(Genome &genome, int numCities)
@@ -56,5 +64,29 @@ void TSPHolder::crossoverSimple(Genome &dad, Genome &mom, Genome &baby1, Genome 
     {
         baby1.bits.push_back(dad.bits.at(i));
         baby2.bits.push_back(mom.bits.at(i));
+    }
+}
+
+Genome &TSPHolder::tournamentSelection(int num)
+{
+    double bestFitnessLocal = 0;
+    int choosenGenome       = -1;
+    for (size_t i = 0; i < population.size(); i++)
+    {
+        int rand = QRandomGenerator::global()->bounded((int) population.size());
+        if (bestFitnessLocal < population.at(rand).fitness)
+        {
+            choosenGenome    = i;
+            bestFitnessLocal = population.at(rand).fitness;
+        }
+    }
+    return population.at(choosenGenome);
+}
+
+void TSPHolder::createPopulation(int populationSize, int genomeSize)
+{
+    for (size_t i = 0; i < populationSize; i++)
+    {
+        population.emplace_back(Genome(genomeSize));
     }
 }
