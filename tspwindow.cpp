@@ -16,13 +16,14 @@ TSPWindow::TSPWindow(std::vector<CityCoordinates> *m,
     , ui(new Ui::TSPWindow)
     , map(m)
     , currentGenome(0)
+    , isBusy(true)
 {
     ui->setupUi(this);
 
     calc = new TSPCalculator(population, begin, end, m);
 
     timer = new QTimer;
-    timer->setInterval(20);
+    timer->setInterval(200);
     connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
 
     repaint();
@@ -129,6 +130,7 @@ void TSPWindow::tick()
         if (curGenome == -1)
         {
             timer->stop();
+            isBusy = false;
             return;
         }
         routes.clear();

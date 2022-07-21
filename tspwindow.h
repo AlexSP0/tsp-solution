@@ -35,6 +35,8 @@ public:
         std::vector<CityCoordinates> *, std::vector<Genome> &, int, int, QWidget *parent = nullptr);
     ~TSPWindow();
 
+    bool isBusy;
+
 protected:
     void paintEvent(QPaintEvent *);
 

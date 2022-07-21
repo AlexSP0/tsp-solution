@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <QMainWindow>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -32,6 +33,9 @@ private:
 
     TSPWindow *window;
 
+    QTimer *timer;
+
+private:
     void generateMap(const int numCities);
 
     void createPopulation(int, int);
@@ -40,5 +44,7 @@ private slots:
 
     void startButton();
     void exitButton();
+
+    void tick();
 };
 #endif // MAINWINDOW_H

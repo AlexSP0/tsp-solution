@@ -4,6 +4,7 @@
 #include "mapconstants.h"
 #include "tspwindow.h"
 
+#include <QMessageBox>
 #include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,14 +13,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    timer = new QTimer();
+    timer->setInterval(1000);
+
     connect(ui->StartButton, &QPushButton::clicked, this, &MainWindow::startButton);
     connect(ui->ExitButton, &QPushButton::clicked, this, &MainWindow::exitButton);
+    connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete window;
+    delete timer;
 }
 
 void MainWindow::generateMap(const int numCities)
@@ -49,11 +55,23 @@ void MainWindow::startButton()
 
     window = new TSPWindow(&map, population, 0, numPopulationString.toInt());
     window->show();
+    timer->start();
 }
 
 void MainWindow::exitButton()
 {
     this->close();
+}
+
+void MainWindow::tick()
+{
+    if (window->isBusy == false)
+    {
+        timer->stop();
+        QMessageBox msgBox;
+        msgBox.setText("WINDOW STOPS!");
+        msgBox.exec();
+    }
 }
 
 void MainWindow::createPopulation(int populationSize, int genomeSize)
