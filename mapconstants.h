@@ -10,6 +10,7 @@ const int MAX_Y_CITY_COORDINATE = 4000;
 const float MUTATION_RATE               = 0.001;
 const int MUTATE_NUM_GENES_PER_MUTATION = 2;
 const double CROSSOVER_RATE             = 0.7;
-const int TOURNAMENT_SLECTION_NUMBER    = 5;
+const int TOURNAMENT_SLECTION_NUMBER    = 10;
+const float DECREASE_POPULATION_RATE    = 0.01;
 
 #endif //MAPCONSTANTS_H

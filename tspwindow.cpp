@@ -23,7 +23,7 @@ TSPWindow::TSPWindow(std::vector<CityCoordinates> *m,
     calc = new TSPCalculator(population, begin, end, m);
 
     timer = new QTimer;
-    timer->setInterval(200);
+    timer->setInterval(3);
     connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
 
     repaint();
@@ -36,6 +36,11 @@ TSPWindow::~TSPWindow()
     delete ui;
     delete calc;
     delete timer;
+}
+
+std::vector<Genome> &TSPWindow::getPopulation()
+{
+    return calc->populationPart;
 }
 
 void TSPWindow::paintEvent(QPaintEvent *e)

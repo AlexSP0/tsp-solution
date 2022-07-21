@@ -37,6 +37,9 @@ public:
 
     bool isBusy;
 
+public:
+    std::vector<Genome> &getPopulation();
+
 protected:
     void paintEvent(QPaintEvent *);
 

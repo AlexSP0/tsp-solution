@@ -34,7 +34,7 @@ void TSPHolder::createPopulation(int populationSize, int genomeSize)
 
 void TSPHolder::genNextGeneration()
 {
-    int newSize = population.size() * DECREASE_POPULATION_RATE;
+    int newSize = population.size() - population.size() * DECREASE_POPULATION_RATE;
     std::vector<Genome> newPopulation;
 
     for (size_t i = 0; i < newSize / 2; i++)
@@ -51,6 +51,20 @@ void TSPHolder::genNextGeneration()
 
         newPopulation.push_back(baby1);
         newPopulation.push_back(baby2);
+    }
+}
+
+void TSPHolder::calculateTotalAndBestFitness()
+{
+    totalFitness = 0.0;
+    bestFitness  = 0.0;
+    for (Genome genome : population)
+    {
+        if (bestFitness < genome.fitness)
+        {
+            bestFitness = genome.fitness;
+        }
+        totalFitness = totalFitness + genome.fitness;
     }
 }
 

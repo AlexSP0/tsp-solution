@@ -13,9 +13,10 @@ public:
 
     void showRoutes(int &, int &, int &);
 
-private:
+public:
     std::vector<Genome> populationPart;
 
+private:
     std::vector<CityCoordinates> *map;
 
     double TotalFitness;

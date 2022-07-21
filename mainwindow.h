@@ -31,6 +31,10 @@ private:
 
     TSPHolder *holder;
 
+    int numberOfGenerations;
+
+    int currentGeneration;
+
     TSPWindow *window;
 
     QTimer *timer;
@@ -42,6 +46,7 @@ private slots:
 
     void startButton();
     void exitButton();
+    void startNewGeneration();
 
     void tick();
 };
