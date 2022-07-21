@@ -16,15 +16,17 @@ TSPCalculator::TSPCalculator(std::vector<Genome> &population,
               std::back_inserter(populationPart));
 }
 
-void TSPCalculator::showRoutes(int &fromCity, int &toCity)
+void TSPCalculator::showRoutes(int &fromCity, int &toCity, int &curGenome)
 {
     if (currentGenome < populationPart.size())
     {
         calculateGenomeFitness(currentGenome, fromCity, toCity);
+        curGenome = currentGenome;
     }
     else
     {
         //Закончили расчеты и показ
+        curGenome = -1;
     }
 }
 

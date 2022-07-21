@@ -19,7 +19,6 @@ set(SOURCES
     genome.cpp
     tspwindow.cpp
     citycoordinates.cpp
-    tspholder.cpp
     tspcalculator.cpp
 )
 
@@ -30,7 +29,6 @@ set(HEADERS
         tspwindow.h
         citycoordinates.h
         mapconstants.h
-        tspholder.h
         tspcalculator.h
 )
 

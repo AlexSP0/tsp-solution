@@ -3,6 +3,7 @@
 
 #include "citycoordinates.h"
 #include "tspholder.h"
+#include "tspwindow.h"
 
 #include <memory>
 #include <QMainWindow>
@@ -22,14 +23,18 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    TSPHolder *population;
-
 private:
     Ui::MainWindow *ui;
 
     std::vector<CityCoordinates> map;
 
+    std::vector<Genome> population;
+
+    TSPWindow *window;
+
     void generateMap(const int numCities);
+
+    void createPopulation(int, int);
 
 private slots:
 

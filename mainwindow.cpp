@@ -12,8 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    generateMap(50);
-
     connect(ui->StartButton, &QPushButton::clicked, this, &MainWindow::startButton);
     connect(ui->ExitButton, &QPushButton::clicked, this, &MainWindow::exitButton);
 }
@@ -21,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete population;
+    delete window;
 }
 
 void MainWindow::generateMap(const int numCities)
@@ -46,13 +44,22 @@ void MainWindow::startButton()
     QString numCitiesString     = ui->NumberOfCitiesLineEdit->text();
     QString numPopulationString = ui->PopulationSizeLineEdit->text();
 
-    population = new TSPHolder(numPopulationString.toInt(), numCitiesString.toInt(), &map);
+    generateMap(numCitiesString.toInt());
+    createPopulation(numPopulationString.toInt(), numCitiesString.toInt());
 
-    TSPWindow *win = new TSPWindow(&map);
-    win->show();
+    window = new TSPWindow(&map, population, 0, numPopulationString.toInt());
+    window->show();
 }
 
 void MainWindow::exitButton()
 {
     this->close();
+}
+
+void MainWindow::createPopulation(int populationSize, int genomeSize)
+{
+    for (size_t i = 0; i < populationSize; i++)
+    {
+        population.emplace_back(Genome(genomeSize));
+    }
 }

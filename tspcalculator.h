@@ -3,7 +3,6 @@
 
 #include "citycoordinates.h"
 #include "genome.h"
-#include "tspwindow.h"
 
 #include <vector>
 
@@ -11,6 +10,8 @@ class TSPCalculator
 {
 public:
     TSPCalculator(std::vector<Genome> &, int, int, std::vector<CityCoordinates> *);
+
+    void showRoutes(int &, int &, int &);
 
 private:
     std::vector<Genome> populationPart;
@@ -21,8 +22,6 @@ private:
 
     int currentGenome;
     int currentGen;
-
-    void showRoutes(int &, int &);
 
     double calcDistanceBetweenCities(int, int);
     void calculateGenomeFitness(int, int &, int &);
