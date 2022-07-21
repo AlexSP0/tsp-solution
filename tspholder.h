@@ -1,28 +1,23 @@
 #ifndef TSPHOLDER_H
 #define TSPHOLDER_H
 
-#include "citycoordinates.h"
 #include "genome.h"
-#include "tspcalculator.h"
 
 #include <vector>
 
 class TSPHolder
 {
 public:
-    TSPHolder(int, int, std::vector<CityCoordinates> *);
+    TSPHolder();
     ~TSPHolder();
 
-    TSPCalculator *calc;
-
-    std::vector<Genome> population;
+public:
+    void mutate(Genome &, int);
+    void crossover(Genome &, Genome &, Genome &, Genome &);
 
 private:
-    int genomeSize; //Numbers of cities
-
-    std::vector<CityCoordinates> *map;
-
-    void createPopulation(int);
+    void scrambleMutation(Genome &, int);
+    void crossoverSimple(Genome &, Genome &, Genome &, Genome &);
 };
 
 #endif // TSPHOLDER_H

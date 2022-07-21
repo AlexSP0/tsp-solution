@@ -34,6 +34,11 @@ Genome &Genome::operator=(const Genome &in)
     return *this;
 }
 
+bool Genome::operator==(const Genome &right)
+{
+    return this->bits == right.bits;
+}
+
 void Genome::generateRoute(const int numCities)
 {
     while (!isValidRoute())

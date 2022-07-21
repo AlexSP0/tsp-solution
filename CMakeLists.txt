@@ -20,6 +20,7 @@ set(SOURCES
     tspwindow.cpp
     citycoordinates.cpp
     tspcalculator.cpp
+    tspholder.cpp
 )
 
 set(HEADERS
@@ -30,6 +31,7 @@ set(HEADERS
         citycoordinates.h
         mapconstants.h
         tspcalculator.h
+        tspholder.h
 )
 
 set(UI

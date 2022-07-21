@@ -14,9 +14,9 @@ TSPWindow::TSPWindow(std::vector<CityCoordinates> *m,
                      QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::TSPWindow)
+    , isBusy(true)
     , map(m)
     , currentGenome(0)
-    , isBusy(true)
 {
     ui->setupUi(this);
 
