@@ -24,6 +24,36 @@ Genome &TSPHolder::selection()
     return tournamentSelection(TOURNAMENT_SLECTION_NUMBER);
 }
 
+void TSPHolder::createPopulation(int populationSize, int genomeSize)
+{
+    for (size_t i = 0; i < populationSize; i++)
+    {
+        population.emplace_back(Genome(genomeSize));
+    }
+}
+
+void TSPHolder::genNextGeneration()
+{
+    int newSize = population.size() * DECREASE_POPULATION_RATE;
+    std::vector<Genome> newPopulation;
+
+    for (size_t i = 0; i < newSize / 2; i++)
+    {
+        Genome dad = selection();
+        Genome mum = selection();
+
+        Genome baby1;
+        Genome baby2;
+
+        crossover(dad, mum, baby1, baby2);
+        mutate(baby1, dad.bits.size());
+        mutate(baby2, dad.bits.size());
+
+        newPopulation.push_back(baby1);
+        newPopulation.push_back(baby2);
+    }
+}
+
 void TSPHolder::scrambleMutation(Genome &genome, int numCities)
 {
     for (size_t i = 0; i < genome.bits.size(); i++)
@@ -81,12 +111,4 @@ Genome &TSPHolder::tournamentSelection(int num)
         }
     }
     return population.at(choosenGenome);
-}
-
-void TSPHolder::createPopulation(int populationSize, int genomeSize)
-{
-    for (size_t i = 0; i < populationSize; i++)
-    {
-        population.emplace_back(Genome(genomeSize));
-    }
 }
