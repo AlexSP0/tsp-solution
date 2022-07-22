@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>200</height>
+    <width>511</width>
+    <height>496</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,6 +80,9 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="0" colspan="3">
+     <widget class="QTableWidget" name="resultsTableWidget"/>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -87,7 +90,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>330</width>
+     <width>511</width>
      <height>22</height>
     </rect>
    </property>

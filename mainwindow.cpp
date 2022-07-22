@@ -15,6 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->resultsTableWidget->setColumnCount(4);
+    QStringList headers;
+    headers << "Generation number"
+            << "PopulationSize"
+            << "Best Fitness"
+            << "Total Fitness";
+
     holder = new TSPHolder();
 
     timer = new QTimer();
@@ -87,11 +94,27 @@ void MainWindow::startNewGeneration()
 {
     holder->genNextGeneration();
 
-    delete window;
-
     window = new TSPWindow(&map, holder->population, 0, holder->population.size());
     window->show();
     timer->start();
+}
+
+void MainWindow::updateResults()
+{
+    ui->resultsTableWidget->setRowCount(0);
+    QString str = "%1";
+    for (size_t i = 0; i < generations.size(); i++)
+    {
+        ui->resultsTableWidget->insertRow(i);
+        ui->resultsTableWidget
+            ->setItem(i, 0, new QTableWidgetItem(tr("%1").arg(generations.at(i).generationNumber)));
+        ui->resultsTableWidget
+            ->setItem(i, 1, new QTableWidgetItem(tr("%1").arg(generations.at(i).populationSize)));
+        ui->resultsTableWidget
+            ->setItem(i, 2, new QTableWidgetItem(tr("%1").arg(generations.at(i).bestFitness)));
+        ui->resultsTableWidget
+            ->setItem(i, 3, new QTableWidgetItem(tr("%1").arg(generations.at(i).totalFitness)));
+    }
 }
 
 void MainWindow::tick()
@@ -103,6 +126,8 @@ void MainWindow::tick()
         timer->stop();
 
         std::swap(holder->population, window->getPopulation());
+        delete window;
+
         holder->calculateTotalAndBestFitness();
 
         Generation generation;
@@ -110,10 +135,11 @@ void MainWindow::tick()
         generation.populationSize   = holder->population.size();
         generation.bestFitness      = holder->bestFitness;
         generation.totalFitness     = holder->totalFitness;
-        Genome gen                  = holder->getBestGenome();
-        generation.bestGenome       = gen;
+        generation.bestGenome       = holder->getBestGenome();
 
         generations.push_back(generation);
+
+        updateResults();
 
         if (currentGeneration < numberOfGenerations)
         {
