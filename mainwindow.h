@@ -16,6 +16,23 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+struct Generation
+{
+    int generationNumber;
+    int populationSize;
+    float bestFitness;
+    float totalFitness;
+    Genome bestGenome;
+
+    Generation()
+        : generationNumber(0)
+        , populationSize(0.0)
+        , bestFitness(0.0)
+        , totalFitness(0.0)
+        , bestGenome()
+    {}
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -28,6 +45,8 @@ private:
     Ui::MainWindow *ui;
 
     std::vector<CityCoordinates> map;
+
+    std::vector<Generation> generations;
 
     TSPHolder *holder;
 

@@ -105,6 +105,16 @@ void MainWindow::tick()
         std::swap(holder->population, window->getPopulation());
         holder->calculateTotalAndBestFitness();
 
+        Generation generation;
+        generation.generationNumber = currentGeneration;
+        generation.populationSize   = holder->population.size();
+        generation.bestFitness      = holder->bestFitness;
+        generation.totalFitness     = holder->totalFitness;
+        Genome gen                  = holder->getBestGenome();
+        generation.bestGenome       = gen;
+
+        generations.push_back(generation);
+
         if (currentGeneration < numberOfGenerations)
         {
             startNewGeneration();

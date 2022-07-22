@@ -68,6 +68,21 @@ void TSPHolder::calculateTotalAndBestFitness()
     }
 }
 
+Genome &TSPHolder::getBestGenome()
+{
+    float bestFit  = 0.0;
+    int bestGenome = 0;
+    for (size_t i = 0; i < population.size(); i++)
+    {
+        if (bestFit < population.at(i).fitness)
+        {
+            bestGenome = i;
+            bestFit    = population.at(i).fitness;
+        }
+    }
+    return population.at(bestGenome);
+}
+
 void TSPHolder::scrambleMutation(Genome &genome, int numCities)
 {
     for (size_t i = 0; i < genome.bits.size(); i++)

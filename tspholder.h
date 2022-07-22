@@ -23,6 +23,7 @@ public:
     void createPopulation(int, int);
     void genNextGeneration();
     void calculateTotalAndBestFitness();
+    Genome &getBestGenome();
 
 private:
     void scrambleMutation(Genome &, int);
