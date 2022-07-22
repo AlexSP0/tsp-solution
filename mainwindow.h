@@ -60,12 +60,13 @@ private:
 
 private:
     void generateMap(const int numCities);
+    void updateResults();
+    void startNewGeneration();
 
 private slots:
 
     void startButton();
     void exitButton();
-    void startNewGeneration();
 
     void tick();
 };

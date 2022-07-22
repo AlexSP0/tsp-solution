@@ -30,10 +30,7 @@ Genome &Genome::operator=(const Genome &in)
         return *this;
     }
     fitness = in.fitness;
-    for (size_t i = 0; i < in.bits.size(); i++)
-    {
-        bits.push_back(in.bits[i]);
-    }
+    std::copy(in.bits.begin(), in.bits.end(), std::back_inserter(bits));
     return *this;
 }
 
