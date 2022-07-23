@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include "mapconstants.h"
+#include "tspgenomewindow.h"
 #include "tspwindow.h"
 
 #include <QMessageBox>
@@ -24,18 +25,24 @@ MainWindow::MainWindow(QWidget *parent)
 
     holder = new TSPHolder();
 
+    genWindow = new TSPGenomeWindow(&map);
+
     timer = new QTimer();
     timer->setInterval(1000);
 
     connect(ui->StartButton, &QPushButton::clicked, this, &MainWindow::startButton);
     connect(ui->ExitButton, &QPushButton::clicked, this, &MainWindow::exitButton);
+    connect(ui->resultsTableWidget,
+            SIGNAL(itemClicked(QTableWidgetItem *)),
+            this,
+            SLOT(showGeneration(QTableWidgetItem *)));
     connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete window;
+    delete genWindow;
     delete timer;
     delete holder;
 }
@@ -97,6 +104,17 @@ void MainWindow::startNewGeneration()
     window = new TSPWindow(&map, holder->population, 0, holder->population.size());
     window->show();
     timer->start();
+}
+
+void MainWindow::showGeneration(QTableWidgetItem *item)
+{
+    int row = item->row();
+    if (genWindow->isVisible())
+    {
+        genWindow->close();
+    }
+    genWindow->setGenome(generations.at(row).bestGenome);
+    genWindow->show();
 }
 
 void MainWindow::updateResults()

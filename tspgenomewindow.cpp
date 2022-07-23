@@ -1,58 +1,54 @@
-#include "tspwindow.h"
-#include "mapconstants.h"
-#include "ui_tspwindow.h"
+#include "tspgenomewindow.h"
+#include "ui_tspgenomewindow.h"
 
 #include <math.h>
 #include <QPainter>
-#include <QPointF>
-#include <QTimer>
 
-TSPWindow::TSPWindow(std::vector<CityCoordinates> *m,
-                     std::vector<Genome> &population,
-                     int begin,
-                     int end,
-                     QWidget *parent)
+TSPGenomeWindow::TSPGenomeWindow(std::vector<CityCoordinates> *m, QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::TSPWindow)
-    , isBusy(true)
+    , ui(new Ui::TSPGenomeWindow)
     , map(m)
-    , currentGenome(0)
 {
     ui->setupUi(this);
 
-    calc = new TSPCalculator(population, begin, end, m);
-
-    timer = new QTimer;
-    timer->setInterval(1);
-    connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
-
     repaint();
-
-    timer->start();
 }
 
-TSPWindow::~TSPWindow()
+TSPGenomeWindow::~TSPGenomeWindow()
 {
     delete ui;
-    delete calc;
-    delete timer;
 }
 
-std::vector<Genome> &TSPWindow::getPopulation()
+void TSPGenomeWindow::setGenome(Genome gen)
 {
-    return calc->populationPart;
+    routes.clear();
+
+    genome.bits.clear();
+    genome.fitness = 0.0;
+
+    genome = gen;
+
+    for (size_t i = 0; i < genome.bits.size(); i++)
+    {
+        if (i == 0)
+        {
+            continue;
+        }
+        Route newRoute(genome.bits.at(i - 1), genome.bits.at(i));
+        routes.push_back(newRoute);
+    }
 }
 
-void TSPWindow::paintEvent(QPaintEvent *e)
+void TSPGenomeWindow::paintEvent(QPaintEvent *e)
 {
-    Q_UNUSED(e)
+    Q_UNUSED(e);
 
     QPainter qp(this);
 
-    renderMap(&qp);
+    render(&qp);
 }
 
-void TSPWindow::renderMap(QPainter *qp)
+void TSPGenomeWindow::render(QPainter *qp)
 {
     resize(MAP_WIDTH_IN_PIXELS, MAP_HEIGHT_IN_PIXELS);
     for (size_t i = 0; i < map->size(); i++)
@@ -67,9 +63,14 @@ void TSPWindow::renderMap(QPainter *qp)
     {
         drawRoute(route, qp);
     }
+
+    for (size_t i = 0; i < genome.bits.size(); i++)
+    {
+        qp->drawText(0, 11 * i, QString::number(genome.bits.at(i)));
+    }
 }
 
-void TSPWindow::drawRoute(Route &route, QPainter *qp)
+void TSPGenomeWindow::drawRoute(Route &route, QPainter *qp)
 {
     float x1abs = map->at(route.fromCity).xCoord;
     float y1abs = map->at(route.fromCity).yCoord;
@@ -103,47 +104,22 @@ void TSPWindow::drawRoute(Route &route, QPainter *qp)
 
     qp->drawLine(x2, y2, f1x2, f1y2);
 }
-void TSPWindow::printCityNum(QPainter *qp, int x, int y, QString text)
+
+void TSPGenomeWindow::printCityNum(QPainter *qp, int x, int y, QString text)
 {
     qp->drawText(x, y, text);
 }
 
-int TSPWindow::translateX(float xCoord)
+int TSPGenomeWindow::translateX(float xCoord)
 {
     float one  = (float) MAP_WIDTH_IN_PIXELS / MAX_X_CITY_COORDINATE;
     int result = one * xCoord;
     return result;
 }
 
-int TSPWindow::translateY(float yCoord)
+int TSPGenomeWindow::translateY(float yCoord)
 {
     float one  = (float) MAP_HEIGHT_IN_PIXELS / MAX_Y_CITY_COORDINATE;
     int result = one * yCoord;
     return result;
-}
-
-void TSPWindow::tick()
-{
-    int fromCity = 0;
-    int toCity   = 0;
-    int curGenome;
-
-    calc->showRoutes(fromCity, toCity, curGenome);
-
-    if (currentGenome != curGenome)
-    {
-        if (curGenome == -1)
-        {
-            timer->stop();
-            isBusy = false;
-            return;
-        }
-        routes.clear();
-    }
-
-    Route route(fromCity, toCity);
-    routes.push_back(route);
-    currentGenome = curGenome;
-
-    repaint();
 }

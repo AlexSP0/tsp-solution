@@ -37,23 +37,22 @@ void TSPHolder::genNextGeneration()
     int newSize = population.size() - population.size() * DECREASE_POPULATION_RATE;
     std::vector<Genome> newPopulation;
 
-    for (size_t i = 0; i < newSize / 2; i++)
+    for (size_t i = 0; i < newSize; i++)
     {
         Genome dad = selection();
-        Genome mum = selection();
 
-        Genome baby1;
-        Genome baby2;
+        Genome baby1 = dad;
 
-        crossover(dad, mum, baby1, baby2);
+        //crossover(dad, mum, baby1, baby2);
         mutate(baby1, dad.bits.size());
-        mutate(baby2, dad.bits.size());
 
         newPopulation.push_back(baby1);
-        newPopulation.push_back(baby2);
     }
     population.clear();
-    population = newPopulation;
+    population.resize(0);
+    population   = newPopulation;
+    bestFitness  = 0.0;
+    totalFitness = 0.0;
 }
 
 void TSPHolder::calculateTotalAndBestFitness()
@@ -72,11 +71,11 @@ void TSPHolder::calculateTotalAndBestFitness()
 
 Genome &TSPHolder::getBestGenome()
 {
-    float bestFit  = 0.0;
+    float bestFit  = population.at(0).fitness;
     int bestGenome = 0;
     for (size_t i = 0; i < population.size(); i++)
     {
-        if (bestFit < population.at(i).fitness)
+        if (bestFit > population.at(i).fitness)
         {
             bestGenome = i;
             bestFit    = population.at(i).fitness;
@@ -94,9 +93,11 @@ void TSPHolder::scrambleMutation(Genome &genome, int numCities)
         {
             for (size_t j = 0; j < MUTATE_NUM_GENES_PER_MUTATION; j++)
             {
-                int gen1 = QRandomGenerator::global()->bounded(numCities);
-                int gen2 = QRandomGenerator::global()->bounded(numCities);
-                std::swap(genome.bits[gen1], genome.bits[gen2]);
+                int gen1          = QRandomGenerator::global()->bounded(numCities);
+                int gen2          = QRandomGenerator::global()->bounded(numCities);
+                int temp          = genome.bits[gen1];
+                genome.bits[gen1] = genome.bits[gen2];
+                genome.bits[gen2] = temp;
             }
         }
     }
@@ -106,7 +107,8 @@ void TSPHolder::crossoverSimple(Genome &dad, Genome &mom, Genome &baby1, Genome 
 {
     float random = QRandomGenerator::global()->generateDouble();
 
-    if (random > CROSSOVER_RATE && mom == dad)
+    if (random != CROSSOVER_RATE
+        && mom == dad) //выключен кроссовер, так как дает детей с поломанными генами, надо вместо != ставить >
     {
         baby1 = mom;
         baby2 = dad;
@@ -135,9 +137,15 @@ Genome &TSPHolder::tournamentSelection(int num)
     for (size_t i = 0; i < num; i++)
     {
         int rand = QRandomGenerator::global()->bounded((int) population.size());
-        if (bestFitnessLocal < population.at(rand).fitness)
+        if (i == 0)
         {
-            choosenGenome    = i;
+            bestFitnessLocal = population.at(rand).fitness;
+            choosenGenome    = rand;
+            continue;
+        }
+        if (bestFitnessLocal > population.at(rand).fitness)
+        {
+            choosenGenome    = rand;
             bestFitnessLocal = population.at(rand).fitness;
         }
     }

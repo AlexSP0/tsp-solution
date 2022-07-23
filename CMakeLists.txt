@@ -21,6 +21,7 @@ set(SOURCES
     citycoordinates.cpp
     tspcalculator.cpp
     tspholder.cpp
+    tspgenomewindow.cpp
 )
 
 set(HEADERS
@@ -32,11 +33,13 @@ set(HEADERS
         mapconstants.h
         tspcalculator.h
         tspholder.h
+        tspgenomewindow.h
 )
 
 set(UI
         mainwindow.ui
         tspwindow.ui
+        tspgenomewindow.ui
 )
 
 add_executable(tsp-solution ${SOURCES} ${HEADERS} ${UI})

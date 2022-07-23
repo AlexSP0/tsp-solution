@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include "citycoordinates.h"
+#include "tspgenomewindow.h"
 #include "tspholder.h"
 #include "tspwindow.h"
 
 #include <memory>
 #include <QMainWindow>
+#include <QTableWidgetItem>
 #include <QTimer>
 
 QT_BEGIN_NAMESPACE
@@ -56,6 +58,8 @@ private:
 
     TSPWindow *window;
 
+    TSPGenomeWindow *genWindow;
+
     QTimer *timer;
 
 private:
@@ -65,6 +69,7 @@ private:
 
 private slots:
 
+    void showGeneration(QTableWidgetItem *item);
     void startButton();
     void exitButton();
 

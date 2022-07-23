@@ -3,6 +3,7 @@
 
 #include "citycoordinates.h"
 #include "genome.h"
+#include "mapconstants.h"
 #include "tspcalculator.h"
 
 #include <QWidget>
@@ -11,20 +12,6 @@ namespace Ui
 {
 class TSPWindow;
 }
-
-struct Route
-{
-    double fromCity;
-    double toCity;
-    Route()
-        : fromCity(0.0)
-        , toCity(0.0)
-    {}
-    Route(int from, int to)
-        : fromCity(from)
-        , toCity(to)
-    {}
-};
 
 class TSPWindow : public QWidget
 {
