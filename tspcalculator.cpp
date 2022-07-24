@@ -70,3 +70,33 @@ void TSPCalculator::calculateGenomeFitness(int currentGenome, int &fromCity, int
         this->currentGenome++;
     }
 }
+
+void TSPCalculator::calculateGenomeFitness(int &curGenome, Genome &gen)
+{
+    if (currentGenome < populationPart.size())
+    {
+        for (size_t i = 0; i < populationPart.at(currentGenome).bits.size(); i++)
+        {
+            if (i == 0)
+            {
+                continue;
+            }
+            double currentDistance
+                = calcDistanceBetweenCities(populationPart[currentGenome].bits[i - 1],
+                                            populationPart[currentGenome].bits[i]);
+
+            populationPart[currentGenome].fitness = populationPart[currentGenome].fitness
+                                                    + currentDistance;
+
+            TotalFitness = TotalFitness + currentDistance;
+        }
+        curGenome = currentGenome;
+        gen       = populationPart[currentGenome];
+        currentGenome++;
+    }
+    else
+    {
+        curGenome     = -1;
+        currentGenome = 0;
+    }
+}

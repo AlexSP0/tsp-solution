@@ -10,8 +10,8 @@ const int MAX_Y_CITY_COORDINATE = 400;
 const float MUTATION_RATE               = 0.01;
 const int MUTATE_NUM_GENES_PER_MUTATION = 2;
 const double CROSSOVER_RATE             = 0.7;
-const int TOURNAMENT_SLECTION_NUMBER    = 2;
-const float DECREASE_POPULATION_RATE    = 0.01;
+const int TOURNAMENT_SLECTION_NUMBER    = 4;
+const float DECREASE_POPULATION_RATE    = 0.00;
 
 struct Route
 {

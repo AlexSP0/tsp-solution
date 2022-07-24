@@ -54,6 +54,7 @@ private:
 
 private slots:
     void tick();
+    void personalTick();
 };
 
 #endif // TSPWINDOW_H

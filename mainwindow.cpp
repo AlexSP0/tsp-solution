@@ -49,32 +49,32 @@ MainWindow::~MainWindow()
 
 void MainWindow::generateMap(const int numCities)
 {
-    int r    = MAX_X_CITY_COORDINATE / 2.5;
-    int step = 360 / numCities;
+    //    int r    = MAX_X_CITY_COORDINATE / 2.5;
+    //    int step = 360 / numCities;
 
-    for (int i = 0; i < 360; i = i + step)
-    {
-        double rad = (double) i / 180 * 3.14;
-        double x   = r * cos(rad);
-        double y   = r * sin(rad);
-        CityCoordinates newCity((int) x + MAX_X_CITY_COORDINATE / 2,
-                                (int) y + MAX_X_CITY_COORDINATE / 2);
-        map.push_back(newCity);
-    }
-
-    //    do
+    //    for (int i = 0; i < 360; i = i + step)
     //    {
-    //        float x = QRandomGenerator::global()->bounded(MAX_X_CITY_COORDINATE);
-    //        float y = QRandomGenerator::global()->bounded(MAX_X_CITY_COORDINATE);
+    //        double rad = (double) i / 180 * 3.14;
+    //        double x   = r * cos(rad);
+    //        double y   = r * sin(rad);
+    //        CityCoordinates newCity((int) x + MAX_X_CITY_COORDINATE / 2,
+    //                                (int) y + MAX_X_CITY_COORDINATE / 2);
+    //        map.push_back(newCity);
+    //    }
 
-    //        CityCoordinates newCity(x, y);
+    do
+    {
+        float x = QRandomGenerator::global()->bounded(MAX_X_CITY_COORDINATE);
+        float y = QRandomGenerator::global()->bounded(MAX_X_CITY_COORDINATE);
 
-    //        if (std::find(map.begin(), map.end(), newCity) == map.end())
-    //        {
-    //            map.push_back(newCity);
-    //        }
+        CityCoordinates newCity(x, y);
 
-    //    } while (map.size() < numCities);
+        if (std::find(map.begin(), map.end(), newCity) == map.end())
+        {
+            map.push_back(newCity);
+        }
+
+    } while (map.size() < numCities);
 }
 
 void MainWindow::startButton()

@@ -16,15 +16,15 @@ TSPWindow::TSPWindow(std::vector<CityCoordinates> *m,
     , ui(new Ui::TSPWindow)
     , isBusy(true)
     , map(m)
-    , currentGenome(0)
+    , currentGenome(5)
 {
     ui->setupUi(this);
 
     calc = new TSPCalculator(population, begin, end, m);
 
     timer = new QTimer;
-    timer->setInterval(1);
-    connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
+    timer->setInterval(10);
+    connect(timer, SIGNAL(timeout()), this, SLOT(personalTick()));
 
     repaint();
 
@@ -122,6 +122,7 @@ int TSPWindow::translateY(float yCoord)
     return result;
 }
 
+//для пошаговых вычислений для каждого индивида
 void TSPWindow::tick()
 {
     int fromCity = 0;
@@ -146,4 +147,38 @@ void TSPWindow::tick()
     currentGenome = curGenome;
 
     repaint();
+}
+
+//Для вычислений всего индивида за один шаг
+void TSPWindow::personalTick()
+{
+    int curGenome = 0;
+    Genome gen;
+    calc->calculateGenomeFitness(curGenome, gen);
+
+    if (curGenome == -1)
+    {
+        timer->stop();
+        isBusy = false;
+        routes.clear();
+        return;
+    }
+
+    for (size_t i = 0; i < gen.bits.size(); i++)
+    {
+        if (i == 0)
+        {
+            continue;
+        }
+        Route route;
+        route.fromCity = gen.bits[i - 1];
+        route.toCity   = gen.bits[i];
+        routes.push_back(route);
+    }
+
+    repaint();
+
+    routes.clear();
+
+    currentGenome = curGenome;
 }

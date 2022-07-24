@@ -15,6 +15,7 @@ public:
 
 public:
     std::vector<Genome> populationPart;
+    void calculateGenomeFitness(int &, Genome &);
 
 private:
     std::vector<CityCoordinates> *map;
